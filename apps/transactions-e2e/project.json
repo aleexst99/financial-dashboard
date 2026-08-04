@@ -1,0 +1,9 @@
+{
+  "name": "transactions-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/transactions-e2e/src",
+  "implicitDependencies": ["transactions"],
+  "// targets": "to see all targets run: nx show project transactions-e2e --web",
+  "targets": {}
+}
