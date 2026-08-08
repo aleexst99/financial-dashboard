@@ -3,12 +3,10 @@ import { withNativeFederation, shareAll } from '@angular-architects/native-feder
 export default withNativeFederation({
   name: 'dashboard',
 
-
-
   exposes: {
     './Component': './apps/dashboard/src/app/app.ts',
+    './BalanceSummary': './apps/dashboard/src/app/balance-summary/balance-summary.ts',
   },
-
   shared: {
     ...shareAll(
       { singleton: true, strictVersion: true, requiredVersion: 'auto', build: 'package' },
