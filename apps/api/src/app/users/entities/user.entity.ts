@@ -20,6 +20,9 @@ export class UserEntity {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  hashedRefreshToken: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 

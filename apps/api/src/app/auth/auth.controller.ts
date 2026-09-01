@@ -25,4 +25,18 @@ export class AuthController {
   getProfile(@Req() req) {
     return req.user;
   }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt-refresh'))
+  refresh(@Req() req) {
+    return this.authService.refreshTokens(req.user.sub, req.user.refreshToken);
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(AuthGuard('jwt'))
+  logout(@Req() req) {
+    return this.authService.logout(req.user.id);
+  }
 }
