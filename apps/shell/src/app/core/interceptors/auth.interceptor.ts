@@ -10,6 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return store.select(selectAccessToken).pipe(
     take(1),
     switchMap((token) => {
+      console.log('[authInterceptor] URL:', req.url, '| token:', token);
       if (token) {
         const cloned = req.clone({
           setHeaders: { Authorization: `Bearer ${token}` },
