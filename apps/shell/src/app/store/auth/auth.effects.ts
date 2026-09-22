@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap, of } from 'rxjs';
+import { map, catchError, switchMap, of, tap, EMPTY } from 'rxjs';
 import { AuthActions } from './auth.actions';
 import { AuthApiService } from '../../core/services/auth-api.service';
 
@@ -30,5 +30,46 @@ export class AuthEffects {
         ),
       ),
     ),
+  );
+
+  persistToken$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        tap(({ token }) => {
+          localStorage.setItem('access_token', token);
+        }),
+      ),
+    { dispatch: false },
+  );
+
+  restoreSession$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.restoreSession),
+      switchMap(() => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+          return EMPTY;
+        }
+        return this.authApi.me(token).pipe(
+          map((user) => AuthActions.loginSuccess({ user, token })),
+          catchError(() => {
+            localStorage.removeItem('access_token');
+            return EMPTY;
+          }),
+        );
+      }),
+    ),
+  );
+
+  clearToken$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          localStorage.removeItem('access_token');
+        }),
+      ),
+    { dispatch: false },
   );
 }
