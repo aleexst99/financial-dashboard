@@ -7,6 +7,7 @@ export default withNativeFederation({
 
   exposes: {
     './Component': './apps/transactions/src/app/app.ts',
+    './TransactionsList': './apps/transactions/src/app/transactions-list/transactions-list.ts',
   },
 
   shared: {

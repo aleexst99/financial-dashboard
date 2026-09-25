@@ -7,4 +7,9 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       loadRemoteModule('dashboard', './BalanceSummary').then(m => m.BalanceSummary),
   },
+  {
+    path: 'transactions',
+    loadComponent: () =>
+      loadRemoteModule('transactions', './TransactionsList').then(m => m.TransactionsList),
+  },
 ];
