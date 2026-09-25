@@ -1,8 +1,17 @@
 <div class="transactions-list">
+  <div class="transactions-list__filters">
+    <select [formControl]="typeControl">
+      <option value="">Todos</option>
+      <option value="income">Ingresos</option>
+      <option value="expense">Gastos</option>
+    </select>
+    <input type="text" [formControl]="categoryControl" placeholder="Filtrar por categoría..." />
+  </div>
+
   @if (loading()) {
     <p>Cargando transacciones...</p>
   } @else if (transactions().length === 0) {
-    <p>No hay transacciones todavía.</p>
+    <p>No hay transacciones con estos filtros.</p>
   } @else {
     <p class="transactions-list__total">Total: {{ total() }} transacciones</p>
     <ul class="transactions-list__items">
