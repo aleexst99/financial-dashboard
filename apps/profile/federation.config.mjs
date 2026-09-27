@@ -7,6 +7,7 @@ export default withNativeFederation({
 
   exposes: {
     './Component': './apps/profile/src/app/app.ts',
+    './ProfileForm': './apps/profile/src/app/profile-form/profile-form.ts',
   },
 
   shared: {

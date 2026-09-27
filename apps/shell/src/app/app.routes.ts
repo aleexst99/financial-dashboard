@@ -12,4 +12,9 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       loadRemoteModule('transactions', './TransactionsList').then(m => m.TransactionsList),
   },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      loadRemoteModule('profile', './ProfileForm').then(m => m.ProfileForm),
+  },
 ];

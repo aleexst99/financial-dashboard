@@ -1,0 +1,74 @@
+<div class="profile-form">
+  @if (loadingProfile()) {
+    <p>Cargando perfil...</p>
+  } @else {
+
+    <section class="profile-form__section">
+      <h3>Datos personales</h3>
+      <form [formGroup]="nameForm" (ngSubmit)="saveName()">
+        <label>
+          Nombre
+          <input type="text" formControlName="name" />
+        </label>
+
+        @if (nameForm.get('name')?.invalid && nameForm.get('name')?.touched) {
+          <p class="profile-form__error">
+            @if (nameForm.get('name')?.hasError('required')) {
+              El nombre es obligatorio.
+            }
+            @if (nameForm.get('name')?.hasError('minlength')) {
+              El nombre debe tener al menos 2 caracteres.
+            }
+          </p>
+        }
+
+        <button type="submit" [disabled]="nameForm.invalid || savingName()">
+          {{ savingName() ? 'Guardando...' : 'Guardar nombre' }}
+        </button>
+
+        @if (nameSuccess()) {
+          <p class="profile-form__success">¡Nombre actualizado!</p>
+        }
+      </form>
+    </section>
+
+    <section class="profile-form__section">
+      <h3>Cambiar contraseña</h3>
+      <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
+        <label>
+          Contraseña actual
+          <input type="password" formControlName="currentPassword" />
+        </label>
+
+        <label>
+          Nueva contraseña
+          <input type="password" formControlName="newPassword" />
+        </label>
+
+        @if (passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) {
+          <p class="profile-form__error">
+            @if (passwordForm.get('newPassword')?.hasError('required')) {
+              La nueva contraseña es obligatoria.
+            }
+            @if (passwordForm.get('newPassword')?.hasError('minlength')) {
+              Debe tener al menos 8 caracteres.
+            }
+          </p>
+        }
+
+        <button type="submit" [disabled]="passwordForm.invalid || savingPassword()">
+          {{ savingPassword() ? 'Guardando...' : 'Cambiar contraseña' }}
+        </button>
+
+        @if (passwordSuccess()) {
+          <p class="profile-form__success">¡Contraseña actualizada!</p>
+        }
+
+        @if (passwordError()) {
+          <p class="profile-form__error">{{ passwordError() }}</p>
+        }
+      </form>
+    </section>
+
+  }
+</div>
