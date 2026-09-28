@@ -45,7 +45,8 @@ describe('BalanceSummary', () => {
 
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.textContent).toContain('1,954.50');
+    const amount = fixture.nativeElement.querySelector('.balance-card__amount');
+    expect(amount.textContent.trim()).toBe('1,954.50 EUR');
     expect(fixture.nativeElement.textContent).not.toContain('Cargando saldo');
   });
 });
