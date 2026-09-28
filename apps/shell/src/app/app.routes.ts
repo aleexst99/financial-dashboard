@@ -17,4 +17,8 @@ export const appRoutes: Route[] = [
     loadComponent: () =>
       loadRemoteModule('profile', './ProfileForm').then(m => m.ProfileForm),
   },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login').then((m) => m.Login),
+  },
 ];
