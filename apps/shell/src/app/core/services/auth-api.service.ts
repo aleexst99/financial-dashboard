@@ -23,4 +23,8 @@ export class AuthApiService {
       headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
     });
   }
+
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/logout`, {});
+  }
 }

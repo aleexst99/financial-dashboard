@@ -72,4 +72,13 @@ export class AuthEffects {
       ),
     { dispatch: false },
   );
+
+  notifyLogout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        switchMap(() => this.authApi.logout().pipe(catchError(() => of(null)))),
+      ),
+    { dispatch: false },
+  );
 }

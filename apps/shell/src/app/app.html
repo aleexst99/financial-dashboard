@@ -3,4 +3,7 @@
 <a routerLink="/dashboard">Ir a Dashboard</a>
 <a routerLink="/transactions">Ir a Transacciones</a>
 <a routerLink="/profile">Ir a Perfil</a>
+@if (isAuthenticated()) {
+  <button (click)="logout()">Cerrar sesión</button>
+}
 <router-outlet></router-outlet>
