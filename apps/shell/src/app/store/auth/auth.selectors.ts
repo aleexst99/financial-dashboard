@@ -27,3 +27,8 @@ export const selectAccessToken = createSelector(
   selectAuthState,
   (state) => state.token,
 );
+
+export const selectSessionChecked = createSelector(
+  selectAuthState,
+  (state) => state.sessionChecked,
+);

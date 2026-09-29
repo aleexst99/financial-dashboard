@@ -18,6 +18,7 @@ export const authReducer = createReducer(
     isAuthenticated: true,
     loading: false,
     error: null,
+    sessionChecked: true,
   })),
 
   on(AuthActions.loginFailure, (state, { error }) => ({
@@ -26,5 +27,13 @@ export const authReducer = createReducer(
     error,
   })),
 
-  on(AuthActions.logout, () => initialAuthState),
+  on(AuthActions.sessionCheckFailed, (state) => ({
+    ...state,
+    sessionChecked: true,
+  })),
+
+  on(AuthActions.logout, () => ({
+    ...initialAuthState,
+    sessionChecked: true,
+  })),
 );

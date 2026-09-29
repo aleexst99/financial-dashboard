@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap, of, tap, EMPTY } from 'rxjs';
+import { map, catchError, switchMap, of, tap } from 'rxjs';
 import { AuthActions } from './auth.actions';
 import { AuthApiService } from '../../core/services/auth-api.service';
 
@@ -49,13 +49,13 @@ export class AuthEffects {
       switchMap(() => {
         const token = localStorage.getItem('access_token');
         if (!token) {
-          return EMPTY;
+          return of(AuthActions.sessionCheckFailed());
         }
         return this.authApi.me(token).pipe(
           map((user) => AuthActions.loginSuccess({ user, token })),
           catchError(() => {
             localStorage.removeItem('access_token');
-            return EMPTY;
+            return of(AuthActions.sessionCheckFailed());
           }),
         );
       }),
