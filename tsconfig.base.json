@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "strict": false,
-    "paths": {}
+    "paths": {
+      "@financial-dashboard/shared-transactions": [
+        "./libs/shared-transactions/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

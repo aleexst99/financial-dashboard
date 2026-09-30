@@ -1,20 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-export interface Transaction {
-  id: string;
-  amount: string;
-  type: 'income' | 'expense';
-  category: string;
-  description: string;
-  date: string;
-}
-
-export interface TransactionsResponse {
-  data: Transaction[];
-  meta: { total: number; page: number; limit: number; totalPages: number };
-}
+import { TransactionsResponse } from './transaction.model';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsApiService {

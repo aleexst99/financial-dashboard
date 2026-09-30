@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { TransactionsApiService } from '../services/transactions-api.service';
+import { TransactionsApiService } from '@financial-dashboard/shared-transactions';
 
 @Component({
   selector: 'app-balance-summary',

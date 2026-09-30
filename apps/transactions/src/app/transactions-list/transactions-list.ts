@@ -2,7 +2,7 @@ import { Component, signal, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { combineLatest, debounceTime, startWith, switchMap } from 'rxjs';
-import { TransactionsApiService, Transaction } from '../services/transactions-api.service';
+import { TransactionsApiService, Transaction } from '@financial-dashboard/shared-transactions';
 
 @Component({
   selector: 'app-transactions-list',
