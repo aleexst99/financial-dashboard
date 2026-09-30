@@ -5,7 +5,8 @@
     "types": []
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../../libs/shared-transactions/src/index.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",

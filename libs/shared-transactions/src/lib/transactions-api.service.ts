@@ -2,11 +2,12 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TransactionsResponse } from './transaction.model';
+import { API_BASE_URL } from './api-config';
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsApiService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:3000/api/transactions';
+  private readonly baseUrl = `${API_BASE_URL}/transactions`;
 
   getAll(params: { type?: string; category?: string; page?: number; limit?: number } = {}): Observable<TransactionsResponse> {
     let httpParams = new HttpParams();
