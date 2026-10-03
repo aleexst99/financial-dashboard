@@ -1,7 +1,7 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { combineLatest, debounceTime, startWith, switchMap } from 'rxjs';
+import { combineLatest, debounceTime, startWith, switchMap, Subject } from 'rxjs';
 import { TransactionsApiService, Transaction } from '@financial-dashboard/shared-transactions';
 
 @Component({
@@ -13,6 +13,7 @@ import { TransactionsApiService, Transaction } from '@financial-dashboard/shared
 })
 export class TransactionsList implements OnInit {
   private readonly transactionsApi = inject(TransactionsApiService);
+  private readonly reload$ = new Subject<void>();
 
   protected readonly typeControl = new FormControl<string>('');
   protected readonly categoryControl = new FormControl<string>('');
@@ -25,6 +26,7 @@ export class TransactionsList implements OnInit {
     combineLatest([
       this.typeControl.valueChanges.pipe(startWith('')),
       this.categoryControl.valueChanges.pipe(startWith('')),
+      this.reload$.pipe(startWith(undefined)),
     ])
       .pipe(
         debounceTime(300),
@@ -45,5 +47,9 @@ export class TransactionsList implements OnInit {
         },
         error: () => this.loading.set(false),
       });
+  }
+
+  reload(): void {
+    this.reload$.next();
   }
 }

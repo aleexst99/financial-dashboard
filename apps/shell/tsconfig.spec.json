@@ -8,7 +8,7 @@
       "jest",
       "node"
     ],
-    "moduleResolution": "node10"
+    "moduleResolution": "bundler"
   },
   "files": [
     "src/test-setup.ts"

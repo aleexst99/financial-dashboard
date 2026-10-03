@@ -17,7 +17,7 @@ export const appRoutes: Route[] = [
     path: 'transactions',
     canActivate: [authGuard],
     loadComponent: () =>
-      loadRemoteModule('transactions', './TransactionsList').then((m) => m.TransactionsList),
+      loadRemoteModule('transactions', './TransactionsPage').then((m) => m.TransactionsPage),
   },
   {
     path: 'profile',

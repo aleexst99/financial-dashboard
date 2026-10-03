@@ -1,8 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TransactionsResponse } from './transaction.model';
+import { Transaction, TransactionsResponse } from './transaction.model';
 import { API_BASE_URL } from './api-config';
+
+export interface CreateTransactionPayload {
+  amount: number;
+  type: Transaction['type'];
+  category: string;
+  description?: string;
+  date: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class TransactionsApiService {
@@ -18,5 +26,9 @@ export class TransactionsApiService {
     if (params.limit) httpParams = httpParams.set('limit', params.limit);
 
     return this.http.get<TransactionsResponse>(this.baseUrl, { params: httpParams });
+  }
+
+  create(payload: CreateTransactionPayload): Observable<Transaction> {
+    return this.http.post<Transaction>(this.baseUrl, payload);
   }
 }

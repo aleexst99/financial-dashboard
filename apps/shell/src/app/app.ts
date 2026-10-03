@@ -1,12 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { NxWelcome } from './nx-welcome';
 import { AuthActions } from './store/auth/auth.actions';
 import { selectIsAuthenticated } from './store/auth/auth.selectors';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [RouterModule],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
