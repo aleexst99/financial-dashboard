@@ -6,7 +6,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "../../libs/shared-transactions/src/index.ts"
+    "../../libs/shared-transactions/src/index.ts",
+    "../../libs/shared-core/src/index.ts"
   ],
   "exclude": [
     "src/**/*.spec.ts",

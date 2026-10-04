@@ -17,7 +17,8 @@
     "paths": {
       "@financial-dashboard/shared-transactions": [
         "./libs/shared-transactions/src/index.ts"
-      ]
+      ],
+      "@financial-dashboard/shared-core": ["./libs/shared-core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

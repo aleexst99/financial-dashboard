@@ -5,4 +5,7 @@
 @if (isAuthenticated()) {
   <button (click)="logout()">Cerrar sesión</button>
 }
+@if (toastMessage()) {
+  <div class="toast">{{ toastMessage() }}</div>
+}
 <router-outlet></router-outlet>
