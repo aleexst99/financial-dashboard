@@ -2,12 +2,13 @@ import { Component, signal, inject, OnInit } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { combineLatest, debounceTime, startWith, switchMap, Subject } from 'rxjs';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { TransactionsApiService, Transaction } from '@financial-dashboard/shared-transactions';
 
 @Component({
   selector: 'app-transactions-list',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, ReactiveFormsModule],
+  imports: [CurrencyPipe, DatePipe, ReactiveFormsModule, ScrollingModule],
   templateUrl: './transactions-list.html',
   styleUrl: './transactions-list.scss',
 })
@@ -35,7 +36,7 @@ export class TransactionsList implements OnInit {
           return this.transactionsApi.getAll({
             type: type || undefined,
             category: category || undefined,
-            limit: 20,
+            limit: 100,
           });
         }),
       )
@@ -47,6 +48,10 @@ export class TransactionsList implements OnInit {
         },
         error: () => this.loading.set(false),
       });
+  }
+
+  trackById(index: number, item: Transaction): string {
+    return item.id;
   }
 
   reload(): void {

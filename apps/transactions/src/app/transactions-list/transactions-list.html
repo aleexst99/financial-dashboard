@@ -14,17 +14,20 @@
     <p>No hay transacciones con estos filtros.</p>
   } @else {
     <p class="transactions-list__total">Total: {{ total() }} transacciones</p>
-    <ul class="transactions-list__items">
-      @for (t of transactions(); track t.id) {
-        <li class="transactions-list__item" [class.expense]="t.type === 'expense'" [class.income]="t.type === 'income'">
-          <span class="transactions-list__category">{{ t.category }}</span>
-          <span class="transactions-list__description">{{ t.description }}</span>
-          <span class="transactions-list__date">{{ t.date | date:'dd/MM/yyyy' }}</span>
-          <span class="transactions-list__amount">
-            {{ t.type === 'expense' ? '-' : '+' }}{{ t.amount | currency:'EUR' }}
-          </span>
-        </li>
-      }
-    </ul>
+    <cdk-virtual-scroll-viewport itemSize="56" class="transactions-list__viewport">
+      <div
+        *cdkVirtualFor="let t of transactions(); trackBy: trackById"
+        class="transactions-list__item"
+        [class.expense]="t.type === 'expense'"
+        [class.income]="t.type === 'income'"
+      >
+        <span class="transactions-list__category">{{ t.category }}</span>
+        <span class="transactions-list__description">{{ t.description }}</span>
+        <span class="transactions-list__date">{{ t.date | date:'dd/MM/yyyy' }}</span>
+        <span class="transactions-list__amount">
+          {{ t.type === 'expense' ? '-' : '+' }}{{ t.amount | currency:'EUR' }}
+        </span>
+      </div>
+    </cdk-virtual-scroll-viewport>
   }
 </div>
