@@ -1,16 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 import { provideRouter } from '@angular/router';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { Login } from './login';
 import { selectAuthError, selectAuthLoading, selectIsAuthenticated } from '../store/auth/auth.selectors';
 
 describe('Login', () => {
-  let fixture: ComponentFixture<Login>;
-  let store: MockStore;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Login],
+  async function setup() {
+    return render(Login, {
       providers: [
         provideRouter([]),
         provideMockStore({
@@ -21,47 +18,53 @@ describe('Login', () => {
           ],
         }),
       ],
-    }).compileComponents();
+    });
+  }
 
-    fixture = TestBed.createComponent(Login);
-    store = TestBed.inject(MockStore);
-    fixture.detectChanges();
+  it('disables the submit button when the form is empty', async () => {
+    await setup();
+
+    const button = screen.getByRole('button', { name: /entrar/i });
+    expect(button).toBeDisabled();
   });
 
-  it('disables the submit button when the form is empty', () => {
-    const button = fixture.nativeElement.querySelector('button[type="submit"]');
-    expect(button.disabled).toBe(true);
+  it('shows a validation message for an invalid email once touched', async () => {
+    const user = userEvent.setup();
+    await setup();
+
+    const emailInput = screen.getByLabelText(/email/i);
+    await user.type(emailInput, 'not-an-email');
+    await user.tab();
+
+    expect(screen.getByText(/introduce un email válido/i)).toBeInTheDocument();
   });
 
-  it('shows a validation message for an invalid email once touched', () => {
-    const emailInput = fixture.nativeElement.querySelector('input[type="email"]');
-    emailInput.value = 'not-an-email';
-    emailInput.dispatchEvent(new Event('input'));
-    emailInput.dispatchEvent(new Event('blur'));
-    fixture.detectChanges();
+  it('enables the submit button once the form is valid', async () => {
+    const user = userEvent.setup();
+    await setup();
 
-    expect(fixture.nativeElement.textContent).toContain('Introduce un email válido');
+    await user.type(screen.getByLabelText(/email/i), 'alex@test.com');
+    await user.type(screen.getByLabelText(/contraseña/i), 'password123');
+
+    const button = screen.getByRole('button', { name: /entrar/i });
+    expect(button).toBeEnabled();
   });
 
-  it('enables the submit button once the form is valid', () => {
-    const emailInput = fixture.nativeElement.querySelector('input[type="email"]');
-    const passwordInput = fixture.nativeElement.querySelector('input[type="password"]');
-
-    emailInput.value = 'alex@test.com';
-    emailInput.dispatchEvent(new Event('input'));
-    passwordInput.value = 'password123';
-    passwordInput.dispatchEvent(new Event('input'));
+  it('shows the backend error message when present', async () => {
+    const { fixture } = await render(Login, {
+      providers: [
+        provideRouter([]),
+        provideMockStore({
+          selectors: [
+            { selector: selectAuthLoading, value: false },
+            { selector: selectAuthError, value: 'Invalid credentials' },
+            { selector: selectIsAuthenticated, value: false },
+          ],
+        }),
+      ],
+    });
     fixture.detectChanges();
 
-    const button = fixture.nativeElement.querySelector('button[type="submit"]');
-    expect(button.disabled).toBe(false);
-  });
-
-  it('shows the backend error message when present', () => {
-    store.overrideSelector(selectAuthError, 'Invalid credentials');
-    store.refreshState();
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.textContent).toContain('Invalid credentials');
+    expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
   });
 });
