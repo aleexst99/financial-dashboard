@@ -25,7 +25,7 @@ import { TransactionEntity } from './transactions/entities/transaction.entity';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [UserEntity, TransactionEntity],
-        synchronize: true,
+        synchronize: false,
       }),
     }),
     UsersModule,

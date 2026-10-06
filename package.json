@@ -2,7 +2,12 @@
   "name": "@financial-dashboard/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "migration:generate": "TS_NODE_PROJECT=apps/api/tsconfig.app.json typeorm-ts-node-commonjs migration:generate -d apps/api/src/data-source.ts",
+    "migration:run": "TS_NODE_PROJECT=apps/api/tsconfig.app.json typeorm-ts-node-commonjs migration:run -d apps/api/src/data-source.ts",
+    "migration:revert": "TS_NODE_PROJECT=apps/api/tsconfig.app.json typeorm-ts-node-commonjs migration:revert -d apps/api/src/data-source.ts",
+    "migration:create": "typeorm-ts-node-commonjs migration:create"
+  },
   "private": true,
   "devDependencies": {
     "@angular-architects/native-federation": "^22.0.6",
