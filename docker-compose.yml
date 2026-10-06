@@ -11,6 +11,33 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U financial_user']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: financial-dashboard-api
+    restart: unless-stopped
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: financial_user
+      DB_PASSWORD: financial_pass
+      DB_NAME: financial_dashboard
+      JWT_SECRET: un-secreto-largo-y-aleatorio-solo-para-desarrollo-local
+      JWT_EXPIRES_IN: 15m
+      JWT_REFRESH_SECRET: otro-secreto-distinto-para-el-refresh-token
+      JWT_REFRESH_EXPIRES_IN: 7d
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:
