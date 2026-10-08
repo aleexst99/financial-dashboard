@@ -26,6 +26,9 @@ import { TransactionEntity } from './transactions/entities/transaction.entity';
         database: configService.get<string>('DB_NAME'),
         entities: [UserEntity, TransactionEntity],
         synchronize: false,
+        ssl: configService.get<string>('DB_SSL') === 'true'
+          ? { rejectUnauthorized: false }
+          : false,
       }),
     }),
     UsersModule,
