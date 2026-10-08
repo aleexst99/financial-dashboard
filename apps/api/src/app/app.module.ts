@@ -17,19 +17,21 @@ import { TransactionEntity } from './transactions/entities/transaction.entity';
     }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_NAME'),
-        entities: [UserEntity, TransactionEntity],
-        synchronize: false,
-        ssl: configService.get<string>('DB_SSL') === 'true'
-          ? { rejectUnauthorized: false }
-          : false,
-      }),
+      useFactory: (configService: ConfigService) => {
+        const useSsl = configService.get<string>('DB_SSL') === 'true';
+        return {
+          type: 'postgres',
+          host: configService.get<string>('DB_HOST'),
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_NAME'),
+          entities: [UserEntity, TransactionEntity],
+          synchronize: false,
+          ssl: useSsl,
+          extra: useSsl ? { ssl: { rejectUnauthorized: false } } : {},
+        };
+      },
     }),
     UsersModule,
     AuthModule,

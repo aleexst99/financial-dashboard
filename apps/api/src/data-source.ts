@@ -3,6 +3,8 @@ import { config } from 'dotenv';
 
 config({ path: 'apps/api/.env' });
 
+const useSsl = process.env.DB_SSL === 'true';
+
 export default new DataSource({
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -13,5 +15,6 @@ export default new DataSource({
   entities: ['apps/api/src/app/**/*.entity.ts'],
   migrations: ['apps/api/src/migrations/*.ts'],
   synchronize: false,
-  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
+  ssl: useSsl,
+  extra: useSsl ? { ssl: { rejectUnauthorized: false } } : {},
 });
