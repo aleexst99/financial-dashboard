@@ -1,5 +1,5 @@
 {
-  "dashboard": "http://localhost:4201/remoteEntry.json",
-  "transactions": "http://localhost:4202/remoteEntry.json",
-  "profile": "http://localhost:4203/remoteEntry.json"
+  "dashboard": "https://financial-dashboard-mfe-dashboard.onrender.com/remoteEntry.json",
+  "transactions": "https://financial-dashboard-mfe-transactions.onrender.com/remoteEntry.json",
+  "profile": "https://financial-dashboard-mfe-profile.onrender.com/remoteEntry.json"
 }
